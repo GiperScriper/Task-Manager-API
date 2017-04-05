@@ -1,0 +1,19 @@
+# editorconfig.org
+root = true
+
+# 4 spaces indentation for all files
+[*]
+indent_style = space
+indent_size = 4
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# 2 spaces indentation for files
+[*.{js,html,vue}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
