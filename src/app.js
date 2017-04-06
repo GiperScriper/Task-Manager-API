@@ -1,4 +1,5 @@
 const express = require('express');
+const config = require('./config');
 
 const app = express();
 
@@ -17,6 +18,6 @@ app.use((req, res) => {
   res.status(404).send('endpoint not found');
 });
 
-app.listen(3000, () => {
-  console.log('Example app listening on port 3000!');
+app.listen(config.port, () => {
+  console.log(`Example app listening on port ${config.port}`);
 });
