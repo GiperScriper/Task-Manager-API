@@ -1,17 +1,28 @@
 const express = require('express');
+const bodyParser = require('body-parser');
+
 const config = require('./config');
+const { mongoose } = require('./db/mongoose');
+
+// Models
+const { Project } = require('./models/project');
 
 const app = express();
 
-app.use((req, res, next) => {
-  console.log('request method', req.method);
-  next();
-});
+// Middlewares
+// parse application/json
+app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-  res.json({
-    name: 'test',
-  });
+// Create Project
+app.post('/projects', (req, res) => {
+  const project = new Project(req.body);
+  project.save(project)
+    .then((response) => {
+      res.status(201).json(response);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
 });
 
 app.use((req, res) => {
@@ -19,5 +30,5 @@ app.use((req, res) => {
 });
 
 app.listen(config.port, () => {
-  console.log(`Example app listening on port ${config.port}`);
+  console.log(`Task Manager API listening on port ${config.port}`);
 });

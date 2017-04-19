@@ -1,0 +1,2 @@
+# run mongodb on windows
+- mongod.exe --dbpath 'path_to_data_storage'

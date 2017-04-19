@@ -22,8 +22,8 @@
   "eslintConfig": {
     "extends": "airbnb-base",
     "env": {
-        "mocha": true,
-        "node": true
+      "mocha": true,
+      "node": true
     },
     "rules": {
       "no-console": [
@@ -39,6 +39,8 @@
     }
   },
   "dependencies": {
-    "express": "^4.15.2"
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "mongoose": "^4.9.4"
   }
 }
