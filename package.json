@@ -25,6 +25,9 @@
       "mocha": true,
       "node": true
     },
+    "globals": {
+      "include": true
+    },
     "rules": {
       "no-console": [
         "error",

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const config = require('../config');
+
+const config = include('config');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.dbUrl);

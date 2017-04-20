@@ -25,6 +25,17 @@ app.post('/projects', (req, res) => {
     });
 });
 
+// get list of projects
+app.get('/projects', (req, res) => {
+  Project.find()
+    .then((response) => {
+      res.status(200).json(response);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
+});
+
 app.use((req, res) => {
   res.status(404).send('endpoint not found');
 });
