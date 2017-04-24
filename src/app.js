@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const config = require('./config');
 const { mongoose } = require('./db/mongoose');
 
-// Models
-const { Project } = require('./models/project');
+// Controllers
+const projectController = require('./controllers/project.controller');
 
 const app = express();
 
@@ -13,28 +13,11 @@ const app = express();
 // parse application/json
 app.use(bodyParser.json());
 
-// Create Project
-app.post('/projects', (req, res) => {
-  const project = new Project(req.body);
-  project.save(project)
-    .then((response) => {
-      res.status(201).json(response);
-    })
-    .catch((error) => {
-      res.status(400).json(error);
-    });
-});
-
-// get list of projects
-app.get('/projects', (req, res) => {
-  Project.find()
-    .then((response) => {
-      res.status(200).json(response);
-    })
-    .catch((error) => {
-      res.status(400).json(error);
-    });
-});
+app.route('/projects')
+  // get list of projects
+  .get(projectController.getProjects)
+  // Create Project
+  .post(projectController.createProject);
 
 app.use((req, res) => {
   res.status(404).send('endpoint not found');
