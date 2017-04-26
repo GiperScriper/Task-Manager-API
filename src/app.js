@@ -19,6 +19,9 @@ app.route('/projects')
   // Create Project
   .post(projectController.createProject);
 
+app.route('/projects/:id')
+  .get(projectController.getProjecById);
+
 app.use((req, res) => {
   res.status(404).send('endpoint not found');
 });
@@ -26,3 +29,5 @@ app.use((req, res) => {
 app.listen(config.port, () => {
   console.log(`Task Manager API listening on port ${config.port}`);
 });
+
+module.exports = { app };

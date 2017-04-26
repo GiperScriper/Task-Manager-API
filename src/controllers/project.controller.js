@@ -1,4 +1,5 @@
 const { Project } = require('../models/project.model');
+const { ObjectId } = require('mongoose').Types;
 
 function createProject(req, res) {
   const project = new Project(req.body);
@@ -22,4 +23,26 @@ function getProjects(req, res) {
   });
 }
 
-module.exports = { createProject, getProjects };
+
+function getProjecById(req, res) {
+  const projectId = req.params.id;
+
+  if (ObjectId.isValid(projectId)) {
+    Project.findById(req.params.id)
+    .then((project) => {
+      const statusCode = project ? 200 : 404;
+      res.status(statusCode).json(project);
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
+  } else {
+    res.status(404).send();
+  }
+}
+
+module.exports = {
+  createProject,
+  getProjects,
+  getProjecById,
+};
