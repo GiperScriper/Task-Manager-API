@@ -3,13 +3,14 @@ const request = require('supertest');
 
 const { app } = require('../app');
 const { Project } = require('../models/project.model');
+const { ObjectId } = require('mongoose').Types;
 
 const projects = [
-  { title: 'project #1' },
-  { title: 'project #2' },
-  { title: 'project #3' },
-  { title: 'project #4' },
-  { title: 'project #5' },
+  { _id: new ObjectId(), title: 'project #1' },
+  { _id: new ObjectId(), title: 'project #2' },
+  { _id: new ObjectId(), title: 'project #3' },
+  { _id: new ObjectId(), title: 'project #4' },
+  { _id: new ObjectId(), title: 'project #5' },
 ];
 
 beforeEach((done) => {
@@ -60,14 +61,30 @@ describe('Projects endpoints', () => {
     });
   });
 
-  describe('GET /projects', () => {
-    it(`should return project with title ${projects[2].title}`, (done) => {
+  describe('GET /projects/:id', () => {
+    it('should return project object', (done) => {
       request(app)
-        .get('/projects/:id')
+        .get(`/projects/${projects[0]._id.toString()}`)
         .expect(200)
-        .expect((project) => {
-          expect(project.title).toBeA(projects[2].title);
+        .expect((res) => {
+          expect(res.body.title).toBe(projects[0].title);
         })
+        .end(done);
+    });
+
+    it('should return 404 if project not found', (done) => {
+      const projectId = new ObjectId().toString();
+      request(app)
+        .get(`/projects/${projectId}`)
+        .expect(404)
+        .end(done);
+    });
+
+    it('should return 404 for invalid ids', (done) => {
+      const invalidId = '1234567890';
+      request(app)
+        .get(`/projects/${invalidId}`)
+        .expect(404)
         .end(done);
     });
   });
