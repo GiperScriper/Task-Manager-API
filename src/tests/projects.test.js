@@ -62,7 +62,7 @@ describe('Projects endpoints', () => {
   });
 
   describe('GET /projects/:id', () => {
-    it('should return project object', (done) => {
+    it('should return project with valid id', (done) => {
       request(app)
         .get(`/projects/${projects[0]._id.toString()}`)
         .expect(200)
@@ -88,6 +88,42 @@ describe('Projects endpoints', () => {
         .end(done);
     });
   });
+
+  describe('DELETE /projects/:id', () => {
+    it('should remove project with valid id', (done) => {
+      const projectId = projects[0]._id.toString();
+      request(app)
+        .delete(`/projects/${projectId}`)
+        .expect(200)
+        .expect((res) => {
+          expect(res.body).toInclude(projects[0]);
+        })
+        .end((err, res) => {
+          if (err) {
+            return done(err);
+          }
+          Project.findById(projectId).then((response) => {
+            expect(response).toNotExist();
+            done();
+          })
+          .catch(e => done(e));
+        });
+    });
+
+    it('should return 404 if project not found', (done) => {
+      const projectId = new ObjectId().toString();
+      request(app)
+        .delete(`/projects/${projectId}`)
+        .expect(404)
+        .end(done);
+    });
+
+    it('should return 404 for invalid ids', (done) => {
+      const invalidId = '1234567890';
+      request(app)
+        .delete(`/projects/${invalidId}`)
+        .expect(404)
+        .end(done);
+    });
+  });
 });
-
-

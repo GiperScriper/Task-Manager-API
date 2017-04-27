@@ -5,6 +5,7 @@ global.include = function requireAbsolute(file) {
 };
 
 module.exports = {
-  port: 3000,
+  port: process.env.PORT || 3000,
   dbUrl: 'mongodb://localhost:27017/task_manager',
+  dbTestUrl: 'mongodb://localhost:27017/task_manager_test',
 };

@@ -20,7 +20,8 @@ app.route('/projects')
   .post(projectController.createProject);
 
 app.route('/projects/:id')
-  .get(projectController.getProjecById);
+  .get(projectController.getProjectById)
+  .delete(projectController.deleteProjectById);
 
 app.use((req, res) => {
   res.status(404).send('endpoint not found');

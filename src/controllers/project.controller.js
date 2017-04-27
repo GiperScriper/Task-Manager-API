@@ -24,7 +24,7 @@ function getProjects(req, res) {
 }
 
 
-function getProjecById(req, res) {
+function getProjectById(req, res) {
   const projectId = req.params.id;
 
   if (ObjectId.isValid(projectId)) {
@@ -41,8 +41,28 @@ function getProjecById(req, res) {
   }
 }
 
+
+function deleteProjectById(req, res) {
+  const projectId = req.params.id;
+
+  if (ObjectId.isValid(projectId)) {
+    Project.findByIdAndRemove(projectId)
+      .then((project) => {
+        const statusCode = project ? 200 : 404;
+        res.status(statusCode).json(project);
+      })
+      .catch((error) => {
+        res.status(400).json(error);
+      });
+  } else {
+    res.status(404).send();
+  }
+}
+
+
 module.exports = {
   createProject,
   getProjects,
-  getProjecById,
+  getProjectById,
+  deleteProjectById,
 };
