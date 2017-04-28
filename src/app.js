@@ -21,7 +21,8 @@ app.route('/projects')
 
 app.route('/projects/:id')
   .get(projectController.getProjectById)
-  .delete(projectController.deleteProjectById);
+  .delete(projectController.deleteProjectById)
+  .put(projectController.updateProjectById);
 
 app.use((req, res) => {
   res.status(404).send('endpoint not found');

@@ -54,8 +54,8 @@ describe('Projects endpoints', () => {
         .get('/projects')
         .expect(200)
         .expect((res) => {
-          expect(res.body).toBeA('array');
-          expect(res.body.length).toBe(5);
+          expect(res.body.data).toBeA('array');
+          expect(res.body.data.length).toBe(5);
         })
         .end(done);
     });
@@ -122,6 +122,49 @@ describe('Projects endpoints', () => {
       const invalidId = '1234567890';
       request(app)
         .delete(`/projects/${invalidId}`)
+        .expect(404)
+        .end(done);
+    });
+  });
+
+  describe('PUT /projects/:id', () => {
+    it('should update title project property', (done) => {
+      const projectId =  projects[0]._id.toString();
+      const data = { title: 'updated title' };
+      request(app)
+        .put(`/projects/${projectId}`)
+        .send(data)
+        .expect(200)
+        .expect((res) => {
+          expect(res.body.title).toBe(data.title);
+        })
+        .end((err) => {
+          if (err) {
+            return done(err);
+          }
+          Project.findById(projectId).then((project) => {
+            expect(project.title).toBe(data.title);
+            done();
+          });
+        });
+    });
+
+    it('should return 404 for invalid ids', (done) => {
+      const invalidId = '1234567890';
+      const data = { title: 'updated title' };
+      request(app)
+        .put(`/projects/${invalidId}`)
+        .send(data)
+        .expect(404)
+        .end(done);
+    });
+
+    it('should return 404 if project not found', (done) => {
+      const projectId = new ObjectId().toString();
+      const data = { title: 'updated title' };
+      request(app)
+        .put(`/projects/${projectId}`)
+        .send(data)
         .expect(404)
         .end(done);
     });

@@ -14,15 +14,10 @@ const projectSchema = new Schema({
     trim: true,
     maxlength: 1000,
   },
-  created: {
-    type: Date,
-    default: Date.now,
-  },
-  updated: {
-    type: Date,
-    default: Date.now,
-  },
-});
+},
+  {
+    timestamps: true,
+  });
 
 const Project = mongoose.model('Project', projectSchema);
 
