@@ -5,7 +5,7 @@
   "main": "./src/app.js",
   "scripts": {
     "start": "nodemon ./src/app.js",
-    "test": "mocha ./src/**/*.test.js",
+    "test": "\"SET NODE_ENV=test\" && mocha ./src/**/*.test.js",
     "test-watch": "nodemon --exec \"npm test\""
   },
   "author": "Nikolay Martynov",
