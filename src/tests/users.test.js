@@ -127,5 +127,32 @@ describe('Users', () => {
         .end(done);
     });
   });
+
+  describe('DELETE /users/logout', () => {
+    it('should remove current user token on logout', (done) => {
+      const token = users[0].tokens[0].token;
+      const userId =  users[0]._id;
+
+      request(app)
+        .delete('/users/logout')
+        .set('x-auth', token)
+        .expect(200)
+        .expect((res) => {
+          expect(res.body).toNotExist();
+        })
+        .end((err) => {
+          if (err) {
+            return done(err);
+          }
+
+          User.findById({ _id: userId })
+            .then((user) => {
+              expect(user.tokens.length).toBe(0);
+              done();
+            })
+            .catch(e => done(e));
+        });
+    });
+  });
 });
 
