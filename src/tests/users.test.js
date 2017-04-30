@@ -38,9 +38,14 @@ describe('Users', () => {
     });
 
     it('should not create a user with invalid data', (done) => {
+      const invalidData = {
+        email: 'email',
+        password: '123',
+      };
+
       request(app)
         .post('/users')
-        .send({})
+        .send(invalidData)
         .expect(400)
         .end(done);
     });

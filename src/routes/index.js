@@ -7,13 +7,16 @@ const { authToken } = require('../middlewares/auth');
 const API = {
   users: '/users',
   currentUser: '/users/current',
+  login: '/users/login',
   usersId: '/users/:id',
   projects: '/projects',
   projectsId: '/projects/:id',
 };
 
-// Users
+// Create user
 router.post(API.users, userController.createUser);
+// login
+router.post(API.login, userController.login);
 
 // router.use(AuthToken);
 router.get(API.currentUser, authToken, userController.getCurrentUser);

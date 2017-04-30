@@ -88,9 +88,29 @@ function findByToken(token) {
   });
 }
 
+
+function findByCredentials(credentials) {
+  const User = this;
+  return User.findOne({ email: credentials.email })
+    .then((user) => {
+      if (!user) {
+        return Promise.reject();
+      }
+      return new Promise((resolve, reject) => {
+        bcrypt.compare(credentials.password, user.password, (err) => {
+          if (err) {
+            return reject();
+          }
+          return resolve(user);
+        });
+      });
+    });
+}
+
 userSchema.methods.toJSON = toJSON;
 userSchema.methods.generateAuthToken = generateAuthToken;
 userSchema.statics.findByToken = findByToken;
+userSchema.statics.findByCredentials = findByCredentials;
 userSchema.pre('save', hashingPassword);
 
 const User = mongoose.model('User', userSchema);
