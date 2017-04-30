@@ -72,6 +72,16 @@ function generateAuthToken() {
 }
 
 
+function removeAuthToken(token) {
+  const user = this;
+  return user.update({
+    $pull: {
+      tokens: { token },
+    },
+  });
+}
+
+
 function findByToken(token) {
   const User = this;
   let decodedToken = '';
@@ -109,6 +119,7 @@ function findByCredentials(credentials) {
 
 userSchema.methods.toJSON = toJSON;
 userSchema.methods.generateAuthToken = generateAuthToken;
+userSchema.methods.removeAuthToken = removeAuthToken;
 userSchema.statics.findByToken = findByToken;
 userSchema.statics.findByCredentials = findByCredentials;
 userSchema.pre('save', hashPassword);

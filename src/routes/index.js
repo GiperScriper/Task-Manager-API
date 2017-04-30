@@ -8,6 +8,7 @@ const API = {
   users: '/users',
   currentUser: '/users/current',
   login: '/users/login',
+  logout: '/users/logout',
   usersId: '/users/:id',
   projects: '/projects',
   projectsId: '/projects/:id',
@@ -17,6 +18,8 @@ const API = {
 router.post(API.users, userController.createUser);
 // login
 router.post(API.login, userController.login);
+// logout
+router.delete(API.logout, authToken, userController.logout);
 
 // router.use(AuthToken);
 router.get(API.currentUser, authToken, userController.getCurrentUser);

@@ -33,6 +33,17 @@ function login(req, res) {
 }
 
 
+function logout(req, res) {
+  req.user.removeAuthToken(req.token)
+    .then(() => {
+      res.status(200).json();
+    })
+    .catch((error) => {
+      res.status(400).json(error);
+    });
+}
+
+
 function getCurrentUser(req, res) {
   res.status(200).json(req.user);
 }
@@ -40,5 +51,6 @@ function getCurrentUser(req, res) {
 module.exports = {
   createUser,
   login,
+  logout,
   getCurrentUser,
 };
