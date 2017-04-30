@@ -4,24 +4,11 @@ const request = require('supertest');
 const { app } = require('../app');
 const { Project } = require('../models/project.model');
 const { ObjectId } = require('mongoose').Types;
+const { projects, populateProjects } = require('./seed/seed.projects');
 
-const projects = [
-  { _id: new ObjectId(), title: 'project #1' },
-  { _id: new ObjectId(), title: 'project #2' },
-  { _id: new ObjectId(), title: 'project #3' },
-  { _id: new ObjectId(), title: 'project #4' },
-  { _id: new ObjectId(), title: 'project #5' },
-];
+beforeEach(populateProjects);
 
-beforeEach((done) => {
-  Project.remove({})
-  .then(() => {
-    Project.insertMany(projects);
-  })
-  .then(() => done());
-});
-
-describe('Projects endpoints', () => {
+describe('Projects', () => {
   describe('POST /projects', () => {
     it('should create a new project', (done) => {
       const data = {
