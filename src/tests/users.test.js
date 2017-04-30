@@ -92,5 +92,40 @@ describe('Users', () => {
         .end(done);
     });
   });
+
+  describe('POST /users/login', () => {
+    it('should login user and return auth token', (done) => {
+      const credentials = {
+        email: users[1].email,
+        password: users[1].password,
+      };
+
+      request(app)
+        .post('/users/login')
+        .send(credentials)
+        .expect(200)
+        .expect((res) => {
+          expect(res.headers['x-auth']).toExist();
+          expect(res.body.email).toBe(credentials.email);
+        })
+        .end(done);
+    });
+
+    it('should not login user and not return auth token with invalid credentials', (done) => {
+      const credentials = {
+        email: users[1].email,
+        password: 'invalidPassword',
+      };
+
+      request(app)
+        .post('/users/login')
+        .send(credentials)
+        .expect(400)
+        .expect((res) => {
+          expect(res.headers['x-auth']).toNotExist();
+        })
+        .end(done);
+    });
+  });
 });
 

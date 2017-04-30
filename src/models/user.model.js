@@ -40,7 +40,7 @@ const userSchema = new Schema({
   });
 
 
-function hashingPassword(next) {
+function hashPassword(next) {
   const user = this;
   if (user.isModified('password')) {
     bcrypt.genSalt(10, (err, salt) => {
@@ -97,8 +97,8 @@ function findByCredentials(credentials) {
         return Promise.reject();
       }
       return new Promise((resolve, reject) => {
-        bcrypt.compare(credentials.password, user.password, (err) => {
-          if (err) {
+        bcrypt.compare(credentials.password, user.password, (err, isMatch) => {
+          if (err || !isMatch) {
             return reject();
           }
           return resolve(user);
@@ -111,7 +111,7 @@ userSchema.methods.toJSON = toJSON;
 userSchema.methods.generateAuthToken = generateAuthToken;
 userSchema.statics.findByToken = findByToken;
 userSchema.statics.findByCredentials = findByCredentials;
-userSchema.pre('save', hashingPassword);
+userSchema.pre('save', hashPassword);
 
 const User = mongoose.model('User', userSchema);
 

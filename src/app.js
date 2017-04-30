@@ -10,7 +10,7 @@ const routes = require('./routes');
 app.use(bodyParser.json());
 
 // Routes
-app.use('/api/v1/', routes);
+app.use(routes);
 
 app.use((req, res) => {
   res.status(404).send('endpoint not found');
