@@ -5,7 +5,9 @@ const { app } = require('../app');
 const { Project } = require('../models/project.model');
 const { ObjectId } = require('mongoose').Types;
 const { projects, populateProjects } = require('./seed/seed.projects');
+const { users, populateUsers } = require('./seed/seed.users');
 
+beforeEach(populateUsers);
 beforeEach(populateProjects);
 
 describe('Projects', () => {
@@ -18,6 +20,7 @@ describe('Projects', () => {
 
       request(app)
         .post('/projects')
+        .set('x-auth', users[0].tokens[0].token)
         .send(data)
         .expect(201)
         .expect((res) => {
@@ -29,6 +32,7 @@ describe('Projects', () => {
     it('should not create a project with invalid data', (done) => {
       request(app)
         .post('/projects')
+        .set('x-auth', users[0].tokens[0].token)
         .send({})
         .expect(400)
         .end(done);

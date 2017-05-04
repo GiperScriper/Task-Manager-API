@@ -3,7 +3,8 @@ const { ObjectId } = require('mongoose').Types;
 const _ = require('lodash');
 
 function createProject(req, res) {
-  const data = _.pick(req.body, ['title', 'description']);
+  let data = _.pick(req.body, ['title', 'description']);
+  data._creator = req.user._id;
   const project = new Project(data);
   project.save(project)
     .then((response) => {

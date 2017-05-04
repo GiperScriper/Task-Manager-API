@@ -14,6 +14,10 @@ const projectSchema = new Schema({
     trim: true,
     maxlength: 1000,
   },
+  _creator: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+  },
 },
   {
     timestamps: true,
