@@ -5,9 +5,8 @@ const { app } = require('../app');
 const { Project } = require('../models/project.model');
 const { ObjectId } = require('mongoose').Types;
 const { projects, populateProjects } = require('./seed/seed.projects');
-const { users, populateUsers } = require('./seed/seed.users');
+const { users } = require('./seed/seed.users');
 
-beforeEach(populateUsers);
 beforeEach(populateProjects);
 
 describe('Projects', () => {
