@@ -17,7 +17,7 @@ function createProject(req, res) {
 
 
 function getProjects(req, res) {
-  Project.find()
+  Project.find({ _creator: req.user._id })
   .then((response) => {
     res.status(200).json({ data: response });
   })
@@ -31,7 +31,7 @@ function getProjectById(req, res) {
   const projectId = req.params.id;
 
   if (ObjectId.isValid(projectId)) {
-    Project.findById(req.params.id)
+    Project.findOne({ _id: projectId, _creator: req.user._id })
     .then((project) => {
       const statusCode = project ? 200 : 404;
       res.status(statusCode).json(project);
@@ -49,7 +49,7 @@ function deleteProjectById(req, res) {
   const projectId = req.params.id;
 
   if (ObjectId.isValid(projectId)) {
-    Project.findByIdAndRemove(projectId)
+    Project.findOneAndRemove({ _id: projectId, _creator: req.user._id })
       .then((project) => {
         const statusCode = project ? 200 : 404;
         res.status(statusCode).json(project);
@@ -65,12 +65,13 @@ function deleteProjectById(req, res) {
 function updateProjectById(req, res) {
   const projectId = req.params.id;
   const data = _.pick(req.body, ['title', 'description']);
+  const query = { _id: projectId, _creator: req.user._id };
 
   if (!ObjectId.isValid(projectId)) {
     return res.status(404).send();
   }
 
-  Project.findByIdAndUpdate(projectId, { $set: data }, { new: true })
+  Project.findOneAndUpdate(query, { $set: data }, { new: true })
     .then((project) => {
       const statusCode = project ? 200 : 404;
       res.status(statusCode).json(project);

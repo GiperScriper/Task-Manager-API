@@ -39,13 +39,14 @@ describe('Projects', () => {
   });
 
   describe('GET /projects', () => {
-    it('should return array of 5 projects', (done) => {
+    it('should return array of 3 projects', (done) => {
       request(app)
         .get('/projects')
+        .set('x-auth', users[0].tokens[0].token)
         .expect(200)
         .expect((res) => {
           expect(res.body.data).toBeA('array');
-          expect(res.body.data.length).toBe(5);
+          expect(res.body.data.length).toBe(3);
         })
         .end(done);
     });
@@ -55,6 +56,7 @@ describe('Projects', () => {
     it('should return project with valid id', (done) => {
       request(app)
         .get(`/projects/${projects[0]._id.toString()}`)
+        .set('x-auth', users[0].tokens[0].token)
         .expect(200)
         .expect((res) => {
           expect(res.body.title).toBe(projects[0].title);
@@ -62,10 +64,19 @@ describe('Projects', () => {
         .end(done);
     });
 
+    it('should not return project created by another user', (done) => {
+      request(app)
+        .get(`/projects/${projects[1]._id.toString()}`)
+        .set('x-auth', users[0].tokens[0].token)
+        .expect(404)
+        .end(done);
+    });
+
     it('should return 404 if project not found', (done) => {
       const projectId = new ObjectId().toString();
       request(app)
         .get(`/projects/${projectId}`)
+        .set('x-auth', users[0].tokens[0].token)
         .expect(404)
         .end(done);
     });
@@ -74,6 +85,7 @@ describe('Projects', () => {
       const invalidId = '1234567890';
       request(app)
         .get(`/projects/${invalidId}`)
+        .set('x-auth', users[0].tokens[0].token)
         .expect(404)
         .end(done);
     });
@@ -84,6 +96,7 @@ describe('Projects', () => {
       const projectId = projects[0]._id.toString();
       request(app)
         .delete(`/projects/${projectId}`)
+        .set('x-auth', users[0].tokens[0].token)
         .expect(200)
         .expect((res) => {
           expect(res.body).toInclude(projects[0]);
@@ -104,6 +117,7 @@ describe('Projects', () => {
       const projectId = new ObjectId().toString();
       request(app)
         .delete(`/projects/${projectId}`)
+        .set('x-auth', users[0].tokens[0].token)
         .expect(404)
         .end(done);
     });
@@ -112,6 +126,7 @@ describe('Projects', () => {
       const invalidId = '1234567890';
       request(app)
         .delete(`/projects/${invalidId}`)
+        .set('x-auth', users[0].tokens[0].token)
         .expect(404)
         .end(done);
     });
@@ -123,6 +138,7 @@ describe('Projects', () => {
       const data = { title: 'updated title' };
       request(app)
         .put(`/projects/${projectId}`)
+        .set('x-auth', users[0].tokens[0].token)
         .send(data)
         .expect(200)
         .expect((res) => {
@@ -144,6 +160,7 @@ describe('Projects', () => {
       const data = { title: 'updated title' };
       request(app)
         .put(`/projects/${invalidId}`)
+        .set('x-auth', users[0].tokens[0].token)
         .send(data)
         .expect(404)
         .end(done);
@@ -154,6 +171,7 @@ describe('Projects', () => {
       const data = { title: 'updated title' };
       request(app)
         .put(`/projects/${projectId}`)
+        .set('x-auth', users[0].tokens[0].token)
         .send(data)
         .expect(404)
         .end(done);

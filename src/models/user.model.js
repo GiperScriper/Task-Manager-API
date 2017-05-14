@@ -65,7 +65,7 @@ function toJSON() {
 function generateAuthToken() {
   const user = this;
   const access = 'auth';
-  const token = jwt.sign({ _id: user._id.toString(), access }, 'secret').toString();
+  const token = jwt.sign({ _id: user._id.toString(), access }, process.env.JWT_SECRET).toString();
   user.tokens.push({ access, token });
 
   return user.save().then(() => { return token; });
@@ -86,7 +86,7 @@ function findByToken(token) {
   const User = this;
   let decodedToken = '';
   try {
-    decodedToken = jwt.verify(token, 'secret');
+    decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   } catch (e) {
     return Promise.reject();
   }

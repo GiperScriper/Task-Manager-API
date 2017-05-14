@@ -3,6 +3,7 @@ const { User } = require('../../models/user.model');
 const { ObjectId } = require('mongoose').Types;
 
 const objectIdForFirstUser = new ObjectId();
+const objectIdForThirdUser = new ObjectId();
 
 const users = [
   {
@@ -11,11 +12,19 @@ const users = [
     password: 'My!Passw0rd',
     tokens: [{
       access: 'auth',
-      token: jwt.sign({ _id: objectIdForFirstUser.toString(), access: 'auth' }, 'secret').toString(),
+      token: jwt.sign({ _id: objectIdForFirstUser.toString(), access: 'auth' }, process.env.JWT_SECRET).toString(),
     }],
   },
   { _id: new ObjectId(), email: 'mike@mail.ru', password: '123456' },
-  { _id: new ObjectId(), email: 'bob@company.com', password: 'simplePassword' },
+  {
+    _id: new ObjectId(),
+    email: 'bob@company.com',
+    password: 'simplePassword',
+    tokens: [{
+      access: 'auth',
+      token: jwt.sign({ _id: objectIdForThirdUser.toString(), access: 'auth' }, process.env.JWT_SECRET).toString(),
+    }],
+  },
 ];
 
 function populateUsers(done) {

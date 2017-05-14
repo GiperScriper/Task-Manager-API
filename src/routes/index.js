@@ -18,15 +18,17 @@ const API = {
 router.post(API.users, userController.createUser);
 // login
 router.post(API.login, userController.login);
-// logout
-router.delete(API.logout, authToken, userController.logout);
 
-// router.use(AuthToken);
-router.get(API.currentUser, authToken, userController.getCurrentUser);
+// all routes below required authentication by token
+router.use(authToken);
+// logout
+router.delete(API.logout, userController.logout);
+// get current user
+router.get(API.currentUser, userController.getCurrentUser);
 
 // Projects
 router.get(API.projects, projectController.getProjects);
-router.post(API.projects, authToken, projectController.createProject);
+router.post(API.projects, projectController.createProject);
 router.get(API.projectsId, projectController.getProjectById);
 router.delete(API.projectsId, projectController.deleteProjectById);
 router.put(API.projectsId, projectController.updateProjectById);

@@ -1,0 +1,12 @@
+{
+    "development": {
+        "PORT": 3000,
+        "MONGODB_URI": "mongodb://localhost:27017/task_manager",
+        "JWT_SECRET": "secret"
+    },
+    "test": {
+        "PORT": 3000,
+        "MONGODB_URI": "mongodb://localhost:27017/task_manager",
+        "JWT_SECRET": "test_secret"
+    }
+}
