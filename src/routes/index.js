@@ -1,18 +1,8 @@
-// Controllers
-const projectController = require('../controllers/project.controller');
 const router = require('express').Router();
+const projectController = require('../controllers/project.controller');
 const userController = require('../controllers/user.controller');
 const { authToken } = require('../middlewares/auth');
-
-const API = {
-  users: '/users',
-  currentUser: '/users/current',
-  login: '/users/login',
-  logout: '/users/logout',
-  usersId: '/users/:id',
-  projects: '/projects',
-  projectsId: '/projects/:id',
-};
+const { API } = require('../config');
 
 // Create user
 router.post(API.users, userController.createUser);

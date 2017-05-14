@@ -21,7 +21,7 @@ async function getProjects(req, res) {
     const userId = req.user._id;
     const query = { $or: [
       { _creator: userId },
-      { members: { $in: [userId] } },
+      { members: { $eq: userId } },
     ] };
     const projects = await Project.find(query);
     res.status(200).json({ data: projects });

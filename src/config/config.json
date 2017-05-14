@@ -1,12 +1,22 @@
 {
-    "development": {
-        "PORT": 3000,
-        "MONGODB_URI": "mongodb://localhost:27017/task_manager",
-        "JWT_SECRET": "secret"
-    },
-    "test": {
-        "PORT": 3000,
-        "MONGODB_URI": "mongodb://localhost:27017/task_manager_test",
-        "JWT_SECRET": "test_secret"
-    }
+  "development": {
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://localhost:27017/task_manager",
+    "JWT_SECRET": "secret"
+  },
+  "test": {
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://localhost:27017/task_manager_test",
+    "JWT_SECRET": "test_secret"
+  },
+  "api": {
+    "basePrefix": "/api/v1",
+    "users": "/users",
+    "currentUser": "/users/current",
+    "login": "/users/login",
+    "logout": "/users/logout",
+    "usersId": "/users/:id",
+    "projects": "/projects",
+    "projectsId": "/projects/:id"
+  }
 }
