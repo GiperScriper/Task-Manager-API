@@ -18,7 +18,12 @@ function createProject(req, res) {
 
 async function getProjects(req, res) {
   try {
-    const projects = await Project.find({ _creator: req.user._id });
+    const userId = req.user._id;
+    const query = { $or: [
+      { _creator: userId },
+      { members: { $in: [userId] } },
+    ] };
+    const projects = await Project.find(query);
     res.status(200).json({ data: projects });
   } catch (error) {
     res.status(400).json(error);
