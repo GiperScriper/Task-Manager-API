@@ -18,6 +18,10 @@ const projectSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  members: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
 },
   {
     timestamps: true,

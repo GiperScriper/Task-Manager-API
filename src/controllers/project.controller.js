@@ -16,14 +16,13 @@ function createProject(req, res) {
 }
 
 
-function getProjects(req, res) {
-  Project.find({ _creator: req.user._id })
-  .then((response) => {
-    res.status(200).json({ data: response });
-  })
-  .catch((error) => {
+async function getProjects(req, res) {
+  try {
+    const projects = await Project.find({ _creator: req.user._id });
+    res.status(200).json({ data: projects });
+  } catch (error) {
     res.status(400).json(error);
-  });
+  }
 }
 
 
