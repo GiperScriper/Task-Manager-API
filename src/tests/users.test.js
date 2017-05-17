@@ -105,8 +105,7 @@ describe('Users', () => {
         .send(credentials)
         .expect(200)
         .expect((res) => {
-          expect(res.headers['x-auth']).toExist();
-          expect(res.body.email).toBe(credentials.email);
+          expect(res.body.token).toExist();
         })
         .end(done);
     });
@@ -122,7 +121,7 @@ describe('Users', () => {
         .send(credentials)
         .expect(400)
         .expect((res) => {
-          expect(res.headers['x-auth']).toNotExist();
+          expect(res.body.token).toNotExist();
         })
         .end(done);
     });

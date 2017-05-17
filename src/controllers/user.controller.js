@@ -24,7 +24,7 @@ function login(req, res) {
     .then((user) => {
       return user.generateAuthToken()
       .then((token) => {
-        res.header('x-auth', token).status(200).json(user);
+        res.status(200).json({ token });
       });
     })
     .catch((error) => {

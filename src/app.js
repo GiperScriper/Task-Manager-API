@@ -3,9 +3,12 @@ require('./db/mongoose');
 
 const app = require('express')();
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const routes = require('./routes');
 
 // Middlewares
+// allow cors requests
+app.use(cors());
 // parse application/json
 app.use(bodyParser.json());
 

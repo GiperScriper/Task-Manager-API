@@ -11,9 +11,9 @@ global.include = function requireAbsolute(file) {
 
 if (env === 'development' || env === 'test') {
   console.log(`*** Running on ${env} environment ***`);
-  const envCnfig = config[env];
-  Object.keys(envCnfig).forEach((key) => {
-    process.env[key] = envCnfig[key];
+  const envConfig = config[env];
+  Object.keys(envConfig).forEach((key) => {
+    process.env[key] = envConfig[key];
   });
 }
 
