@@ -8,6 +8,8 @@ const objectIdForThirdUser = new ObjectId();
 const users = [
   {
     _id: objectIdForFirstUser,
+    firstName: 'John',
+    lastName: 'Snow',
     email: 'john@gmail.com',
     password: 'My!Passw0rd',
     tokens: [{
@@ -15,9 +17,16 @@ const users = [
       token: jwt.sign({ _id: objectIdForFirstUser.toString(), access: 'auth' }, process.env.JWT_SECRET).toString(),
     }],
   },
-  { _id: new ObjectId(), email: 'mike@mail.ru', password: '123456' },
+  { _id: new ObjectId(),
+    firstName: 'Mike',
+    lastName: 'Oldman',
+    email: 'mike@mail.ru',
+    password: '123456',
+  },
   {
     _id: new ObjectId(),
+    firstName: 'Bob',
+    lastName: 'Law',
     email: 'bob@company.com',
     password: 'simplePassword',
     tokens: [{

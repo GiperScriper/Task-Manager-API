@@ -2,7 +2,7 @@ const { User } = require('../models/user.model');
 const _ = require('lodash');
 
 function createUser(req, res) {
-  const data = _.pick(req.body, ['email', 'password']);
+  const data = _.pick(req.body, ['firstName', 'lastName', 'email', 'password']);
   const user = new User(data);
   user.save(user)
     .then(() => {
@@ -24,7 +24,7 @@ function login(req, res) {
     .then((user) => {
       return user.generateAuthToken()
       .then((token) => {
-        res.status(200).json({ token });
+        res.status(200).json({ token, user });
       });
     })
     .catch((error) => {

@@ -7,6 +7,18 @@ const _ = require('lodash');
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  firstName: {
+    type: String,
+    required: true,
+    trim: true,
+    maxlength: 100,
+  },
+  lastName: {
+    type: String,
+    required: true,
+    trim: true,
+    maxlength: 100,
+  },
   email: {
     type: String,
     required: true,
@@ -57,7 +69,7 @@ function hashPassword(next) {
 
 function toJSON() {
   const user = this;
-  const fields = ['_id', 'email', 'updatedAt', 'createdAt'];
+  const fields = ['_id', 'firstName', 'lastName', 'email', 'updatedAt', 'createdAt'];
   return _.pick(user, fields);
 }
 
@@ -65,10 +77,10 @@ function toJSON() {
 function generateAuthToken() {
   const user = this;
   const access = 'auth';
-  const token = jwt.sign({ _id: user._id.toString(), access }, process.env.JWT_SECRET).toString();
+  const token = jwt.sign({ _id: user._id.toString(), access }, process.env.JWT_SECRET, { expiresIn: '1h' }).toString();
   user.tokens.push({ access, token });
 
-  return user.save().then(() => { return token; });
+  return user.save().then(() => token);
 }
 
 

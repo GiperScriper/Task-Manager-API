@@ -11,6 +11,8 @@ describe('Users', () => {
   describe('POST /users', () => {
     it('should create a new user', (done) => {
       const data = {
+        firstName: 'Garry',
+        lastName: 'Winner',
         email: 'name@mail.com',
         password: 'strongPassword',
       };
@@ -39,6 +41,8 @@ describe('Users', () => {
 
     it('should not create a user with invalid data', (done) => {
       const invalidData = {
+        firstName: 'Garry',
+        lastName: 'Winner',
         email: 'email',
         password: '123',
       };
@@ -52,6 +56,8 @@ describe('Users', () => {
 
     it('should not create a user with non-unique email address', (done) => {
       const data = {
+        firstName: 'Garry',
+        lastName: 'Winner',
         email: users[0].email,
         password: 'some new password',
       };
